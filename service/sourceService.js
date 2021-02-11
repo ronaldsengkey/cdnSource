@@ -58,6 +58,22 @@ exports.signinForm_v1 = function (request) {
   });
 };
 
+exports.getSource = function(request){
+  return new Promise(async function(resolve){
+    let paramDb = {
+      category: request.category,
+      status: "active",
+      templateName: request.source,
+    },
+    result = await getMongoosedata("template", paramDb);
+    console.log("getSource::", result);
+    if (result) {
+      return resolve(result.source);
+    } else {
+      return resolve("Not Found");
+    }
+  })
+}
 // exports.addPet = function (body) {
 //   return new Promise(function (resolve, reject) {
 //     resolve();

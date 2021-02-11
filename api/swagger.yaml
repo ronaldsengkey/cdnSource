@@ -200,6 +200,66 @@ paths:
     #         - "write:pets"
     #         - "read:pets"
     #   x-swagger-router-controller: "Pet"
+  
+  /{category}/{name}:
+    get:
+      tags:
+        - "source"
+      summary: "signin request"
+      description: "Global signin for all access"
+      operationId: "getSource"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+        - name: "v"
+          in: "query"
+          description: "destiny app"
+          required: true
+          type: "integer"
+          default: 1
+          minimum: 1
+        - name: "continue"
+          in: "query"
+          description: "destiny app"
+          required: false
+          type: "string"
+        - name: "flowEntry"
+          in: "query"
+          description: "service name"
+          required: true
+          type: "string"
+        - name: "category"
+          in: "path"
+          description: "source category"
+          required: true
+          type: "string"
+        - name: "name"
+          in: "path"
+          description: "source name"
+          required: true
+          type: "string"
+          # items:
+          #   type: "string"
+          #   default: "permissions"
+          #   enum:
+          #     - "permissions"
+          #     - "dashboard"
+          # collectionFormat: "multi"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Pet"
+        "400":
+          description: "Invalid status value"
+      # security:
+      # - petstore_auth:
+      #     - "write:pets"
+      #     - "read:pets"
+      x-swagger-router-controller: "source"
   # /pet/findByStatus:
   #   get:
   #     tags:

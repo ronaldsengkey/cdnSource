@@ -4,6 +4,29 @@ var utils = require("../utils/writer.js");
 var source = require("../service/sourceService");
 let dataRequest = {};
 
+module.exports.getSource = function getSource(req, res){
+  dataRequest.continue = req.swagger.params["continue"].value;
+  dataRequest.version = req.swagger.params["v"].value;
+  dataRequest.flowEntry = req.swagger.params["flowEntry"].value;
+  dataRequest.source = req.swagger.params["name"].value;
+  dataRequest.category = req.swagger.params["category"].value;
+  switch (dataRequest.version) {
+    case 2:
+      break;
+    default:
+      source
+        .getSource(dataRequest)
+        .then(function (response) {
+          console.log("response::", response);
+          utils.writeJson(res, response);
+        })
+        .catch(function (response) {
+          utils.writeJson(res, response);
+        });
+      break;
+  }
+}
+
 module.exports.registerForm = function registerForm(req, res, next) {
   dataRequest.continue = req.swagger.params["continue"].value;
   dataRequest.version = req.swagger.params["v"].value;
@@ -24,7 +47,6 @@ module.exports.registerForm = function registerForm(req, res, next) {
       break;
   }
 };
-
 
 module.exports.signinForm = function signinForm(req, res, next) {
   dataRequest.continue = req.swagger.params["continue"].value;
